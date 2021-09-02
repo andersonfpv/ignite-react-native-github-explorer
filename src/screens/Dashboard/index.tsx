@@ -32,6 +32,8 @@ export function Dashboard() {
      * - call addRepository function sending inputText value;
      * - clean inputText value.
      */
+    addRepository(inputText);
+    inputRef.current?.clear();
     inputRef.current?.blur();
   }
 
@@ -44,13 +46,16 @@ export function Dashboard() {
      *  repositoryId: id of the repository
      * })
      */
+    navigate("Repository", {
+      repositoryId: id,
+    });
   }
 
   return (
     <Background>
       <Container>
         <AddGithubRepo>
-          <Title>Explore repositórios{'\n'}no GitHub.</Title>
+          <Title>Explore repositórios{"\n"}no GitHub.</Title>
 
           <Input>
             <InputField
@@ -58,24 +63,26 @@ export function Dashboard() {
               placeholder="Digite aqui 'usuário/repositório'"
               value={inputText}
               /**
-               * TODO - update inputText value when input text value 
+               * TODO - update inputText value when input text value
                * changes:
                * onChangeText={YOUR CODE HERE}
                */
+              onChangeText={(value) => setInputText(value)}
               onSubmitEditing={handleAddRepository}
               returnKeyType="send"
-              autoCapitalize='none'
+              autoCapitalize="none"
               autoCorrect={false}
             />
 
             <InputButton
               testID="input-button"
               onPress={handleAddRepository}
-            /**
-             * TODO - ensure to disable button when inputText is 
-             * empty (use disabled prop to this):
-             * disabled={CONDITION HERE}
-             */
+              /**
+               * TODO - ensure to disable button when inputText is
+               * empty (use disabled prop to this):
+               * disabled={CONDITION HERE}
+               */
+              disabled={inputText === "" ? true : false}
             >
               <Icon name="search" size={20} />
             </InputButton>
@@ -85,7 +92,7 @@ export function Dashboard() {
         <RepositoriesList
           data={repositories}
           showsVerticalScrollIndicator={false}
-          keyExtractor={repository => String(repository.id)}
+          keyExtractor={(repository) => String(repository.id)}
           renderItem={({ item: repository }) => (
             <Card
               key={repository.id}
@@ -93,7 +100,7 @@ export function Dashboard() {
                 id: repository.id,
                 title: repository.full_name,
                 subTitle: repository.description,
-                imageUrl: repository.owner.avatar_url
+                imageUrl: repository.owner.avatar_url,
               }}
               onPress={() => handleRepositoryPageNavigation(repository.id)}
             />
@@ -101,5 +108,5 @@ export function Dashboard() {
         />
       </Container>
     </Background>
-  )
+  );
 }

@@ -21,14 +21,11 @@ export function CardAnimation({ children, ...rest }: CardAnimationProps) {
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
-      opacity: interpolate(cardOpacity.value, [], []),
+      opacity: cardOpacity.value,
       transform: [
         {
-          translateX: interpolate(cardOffset.value,
-            [],
-            [],
-            Extrapolate.CLAMP
-          )
+          translateX: cardOffset.value,
+        
         }
       ]
     }
